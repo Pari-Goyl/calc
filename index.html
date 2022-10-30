@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>It's a Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: rgb(8, 0, 37);
+        }
+
+        table {
+            width: 100%;
+            height: 97vh;
+            color: white;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        table thead {
+            height: 35vh;
+        }
+
+        table thead #input {
+            text-align: right;
+            padding: 0 40px;
+        }
+
+        table thead #input input {
+            text-align: right;
+            border: none;
+            outline: none;
+            background-color: rgb(8, 0, 37);
+            width: 100%;
+            color: white;
+            font-size: 80px;
+        }
+
+        table thead #input input::-moz-placeholder {
+            color: white;
+        }
+
+        table thead #input input:-ms-input-placeholder {
+            color: white;
+        }
+
+        table thead #input input::placeholder {
+            color: white;
+        }
+
+        table tbody tr td {
+            font-size: 22px;
+        }
+
+        table tbody tr th {
+            font-size: 30px;
+        }
+
+        table tbody tr td:hover,
+        table tbody tr th:hover {
+            background-color: rgb(26, 20, 53);
+        }
+    </style>
+</head>
+
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <td colspan="4" id="input">
+                    <input type="text" value="" placeholder="0" autoFocus={true} />
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="btn" style="font-size: 25px;">CA</td>
+                <td class="btn" style="font-size: 25px;">C</td>
+                <td class="btn" style="font-size: 25px;">%</td>
+                <td class="btn" id="backspace" style="font-size: 25px;"><i class="bi bi-backspace"></i></td>
+            </tr>
+            <tr>
+                <td class="btn" id="oneUpon"><sup>1</sup>/<sub>x</sub></td>
+                <td class="btn" id="square">x<sup>2</sup></td>
+                <td class="btn" id="root">&Sqrt;x</td>
+                <th class="btn operator">/</th>
+            </tr>
+            <tr>
+                <th class="btn">7</th>
+                <th class="btn">8</th>
+                <th class="btn">9</th>
+                <th class="btn operator">*</th>
+            </tr>
+            <tr>
+                <th class="btn">4</th>
+                <th class="btn">5</th>
+                <th class="btn">6</th>
+                <th class="btn operator">-</th>
+            </tr>
+            <tr>
+                <th class="btn">1</th>
+                <th class="btn">2</th>
+                <th class="btn">3</th>
+                <th class="btn operator">+</th>
+            </tr>
+            <tr>
+                <td class="btn" id="preminus">&PlusMinus;</td>
+                <th class="btn">0</th>
+                <th class="btn">.</th>
+                <th class="btn">=</th>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        let string = "";
+        let btns = document.querySelectorAll('.btn');
+        let operator = document.querySelectorAll('.operator');
+        let input = document.querySelector('input');
+
+        Array.from(btns).forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                if (e.target.innerHTML == '=') {
+                    string = eval(string);
+                    input.value = '=' + string;
+                }
+                else if (e.target.innerHTML == 'C' || e.target.innerHTML == 'CA') {
+                    string = '';
+                    input.value = string;
+                }
+                else if (e.target.innerHTML == '%') {
+                    string = string / 100;
+                    input.value = "It's not fixed yet";
+                }
+                else if (e.target == backspace) {
+                    string = string.substr(0, string.length - 1);
+                    input.value = string;
+                }
+                else if (e.target == oneUpon) {
+                    if (string != '') {
+                        string = 1 / string;
+                        input.value = '=' + string;
+                    }
+                }
+                else if (e.target == square) {
+                    if (string != '') {
+                        string = string * string;
+                        input.value = '=' + string;
+                    }
+                }
+                else if (e.target == root) {
+                    if (string != '') {
+                        string = Math.sqrt(string);
+                        input.value = '=' + string;
+                    }
+                }
+                else if (e.target == preminus) {
+                    if (string.charAt(0) != '-' && string != '' && string != '0') {
+                        string = '-' + string;
+                        input.value = string;
+                    }
+                    else if (string.charAt(0) == '-') {
+                        string = string.substr(1, string.length);
+                        input.value = string;
+                    }
+                }
+                else if (e.target.innerHTML == '.') {
+                    if (string == '') {
+                        string = '0.';
+                        input.value = string;
+                    }
+                    else if (!string.includes('.')) {
+                        string = string + '.';
+                        input.value = string;
+                    }
+                }
+                else {
+                    // if(){
+                    string = string + e.target.innerHTML;
+                    input.value = string;
+                    // }
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
